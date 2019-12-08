@@ -1,0 +1,316 @@
+USE [master]
+GO
+/****** Object:  Database [Facilities_inspection]    Script Date: 08.12.2019 18:57:12 ******/
+CREATE DATABASE [Facilities_inspection]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Facilities_inspection', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\Facilities_inspection.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Facilities_inspection_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\Facilities_inspection_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [Facilities_inspection] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Facilities_inspection].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Facilities_inspection] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Facilities_inspection] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Facilities_inspection] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Facilities_inspection] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Facilities_inspection] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Facilities_inspection] SET  MULTI_USER 
+GO
+ALTER DATABASE [Facilities_inspection] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Facilities_inspection] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Facilities_inspection] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Facilities_inspection] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Facilities_inspection] SET DELAYED_DURABILITY = DISABLED 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Facilities_inspection', N'ON'
+GO
+ALTER DATABASE [Facilities_inspection] SET QUERY_STORE = OFF
+GO
+USE [Facilities_inspection]
+GO
+/****** Object:  Table [dbo].[Companies]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Companies](
+	[Id_company] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [varchar](50) NULL,
+	[Industry] [varchar](50) NULL,
+	[Phone] [varchar](10) NULL,
+	[Email] [varchar](50) NULL,
+	[TaxIdNo] [varchar](10) NULL,
+	[AddressLine] [varchar](50) NULL,
+	[City] [varchar](25) NULL,
+	[Region] [varchar](25) NULL,
+	[PostCode] [varchar](5) NULL,
+ CONSTRAINT [PK_Companies] PRIMARY KEY CLUSTERED 
+(
+	[Id_company] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Concractors]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Concractors](
+	[Id_concractor] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [varchar](50) NULL,
+	[Industry] [varchar](50) NULL,
+	[Phone] [varchar](9) NULL,
+	[Email] [varchar](50) NULL,
+	[TaxIdNo] [varchar](10) NULL,
+	[AddressLine] [varchar](50) NULL,
+	[City] [varchar](25) NULL,
+	[Region] [varchar](25) NULL,
+	[PostCode] [varchar](5) NULL,
+ CONSTRAINT [PK_Concractors] PRIMARY KEY CLUSTERED 
+(
+	[Id_concractor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Engineers]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Engineers](
+	[Id_engineer] [int] IDENTITY(1,1) NOT NULL,
+	[Id_concractor] [int] NULL,
+	[FirstName] [varchar](25) NULL,
+	[LastName] [varchar](25) NULL,
+	[Phone] [varchar](10) NULL,
+	[Email] [varchar](50) NULL,
+	[Licenses] [varchar](50) NULL,
+	[Region] [varchar](25) NULL,
+ CONSTRAINT [PK_Engineers] PRIMARY KEY CLUSTERED 
+(
+	[Id_engineer] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Facilities]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Facilities](
+	[Id_facility] [int] IDENTITY(1,1) NOT NULL,
+	[FacilityName] [varchar](50) NULL,
+	[Id_company] [int] NULL,
+	[Working_hours_info] [varchar](100) NULL,
+	[AddressLine] [varchar](50) NULL,
+	[City] [varchar](25) NULL,
+	[Region] [varchar](25) NULL,
+	[PostCode] [varchar](5) NULL,
+	[PhoneToAdmin] [varchar](9) NULL,
+	[EmailToAdmin] [varchar](50) NULL,
+ CONSTRAINT [PK_Facilities] PRIMARY KEY CLUSTERED 
+(
+	[Id_facility] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Invoices]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoices](
+	[Id_invoice] [int] IDENTITY(1,1) NOT NULL,
+	[Id_concractor] [int] NULL,
+	[InvoiceNo] [varchar](25) NULL,
+	[InvoiceDate] [date] NULL,
+	[NetAmount] [money] NULL,
+	[DateOfPayment] [datetime] NULL,
+	[PaymentStatus] [varchar](25) NULL,
+ CONSTRAINT [PK_Invoices] PRIMARY KEY CLUSTERED 
+(
+	[Id_invoice] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Sprinkler_Room_inspections]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Sprinkler_Room_inspections](
+	[Id_sprinkler_Insp] [int] IDENTITY(1,1) NOT NULL,
+	[Id_invoice] [int] NULL,
+	[Id_facility] [int] NULL,
+	[Id_concrator] [int] NULL,
+	[Id_engineer] [int] NULL,
+	[DateInsp] [date] NULL,
+	[StandByPressure] [decimal](2, 1) NULL,
+	[Pump1Sno] [varchar](25) NULL,
+	[Pump1Lph] [smallint] NULL,
+	[Pump2Sno] [varchar](25) NULL,
+	[Pump2Lph] [smallint] NULL,
+	[PumpsCheck] [varchar](50) NULL,
+	[JockeyPressure] [decimal](2, 1) NULL,
+	[JockeyPumpCheck] [varchar](50) NULL,
+	[CompressorPress] [decimal](2, 1) NULL,
+	[CompressorCheck] [varchar](50) NULL,
+	[LeaksCheck] [varchar](50) NULL,
+	[Visualinspection] [varchar](255) NULL,
+	[FirePanelCheck] [varchar](50) NULL,
+	[FirePanSignals] [varchar](50) NULL,
+	[Comments] [varchar](255) NULL,
+ CONSTRAINT [PK_Sprinkler_Room_inspections] PRIMARY KEY CLUSTERED 
+(
+	[Id_sprinkler_Insp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Facilities]  WITH CHECK ADD  CONSTRAINT [FK_Facilities_Companies] FOREIGN KEY([Id_company])
+REFERENCES [dbo].[Companies] ([Id_company])
+GO
+ALTER TABLE [dbo].[Facilities] CHECK CONSTRAINT [FK_Facilities_Companies]
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections]  WITH CHECK ADD  CONSTRAINT [FK_Sprinkler_Room_inspections_Concractors] FOREIGN KEY([Id_concrator])
+REFERENCES [dbo].[Concractors] ([Id_concractor])
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections] CHECK CONSTRAINT [FK_Sprinkler_Room_inspections_Concractors]
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections]  WITH CHECK ADD  CONSTRAINT [FK_Sprinkler_Room_inspections_Engineers] FOREIGN KEY([Id_engineer])
+REFERENCES [dbo].[Engineers] ([Id_engineer])
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections] CHECK CONSTRAINT [FK_Sprinkler_Room_inspections_Engineers]
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections]  WITH CHECK ADD  CONSTRAINT [FK_Sprinkler_Room_inspections_Facilities] FOREIGN KEY([Id_facility])
+REFERENCES [dbo].[Facilities] ([Id_facility])
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections] CHECK CONSTRAINT [FK_Sprinkler_Room_inspections_Facilities]
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections]  WITH CHECK ADD  CONSTRAINT [FK_Sprinkler_Room_inspections_Invoices] FOREIGN KEY([Id_invoice])
+REFERENCES [dbo].[Invoices] ([Id_invoice])
+GO
+ALTER TABLE [dbo].[Sprinkler_Room_inspections] CHECK CONSTRAINT [FK_Sprinkler_Room_inspections_Invoices]
+GO
+ALTER TABLE [dbo].[Companies]  WITH CHECK ADD  CONSTRAINT [CheckEmailCompanies] CHECK  (([Email] like '%___@___%'))
+GO
+ALTER TABLE [dbo].[Companies] CHECK CONSTRAINT [CheckEmailCompanies]
+GO
+ALTER TABLE [dbo].[Companies]  WITH CHECK ADD  CONSTRAINT [CheckPhoneCompanies] CHECK  (([Phone] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Companies] CHECK CONSTRAINT [CheckPhoneCompanies]
+GO
+ALTER TABLE [dbo].[Companies]  WITH CHECK ADD  CONSTRAINT [CheckPostCodeCompanies] CHECK  (([PostCode] like '[0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Companies] CHECK CONSTRAINT [CheckPostCodeCompanies]
+GO
+ALTER TABLE [dbo].[Companies]  WITH CHECK ADD  CONSTRAINT [CheckTaxIdNoCompanies] CHECK  (([TaxIdNo] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Companies] CHECK CONSTRAINT [CheckTaxIdNoCompanies]
+GO
+ALTER TABLE [dbo].[Concractors]  WITH CHECK ADD  CONSTRAINT [CheckEmailCon] CHECK  (([Email] like '%___@___%'))
+GO
+ALTER TABLE [dbo].[Concractors] CHECK CONSTRAINT [CheckEmailCon]
+GO
+ALTER TABLE [dbo].[Concractors]  WITH CHECK ADD  CONSTRAINT [CheckPhoneCon] CHECK  (([Phone] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Concractors] CHECK CONSTRAINT [CheckPhoneCon]
+GO
+ALTER TABLE [dbo].[Concractors]  WITH CHECK ADD  CONSTRAINT [CheckPostCodeCon] CHECK  (([PostCode] like '[0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Concractors] CHECK CONSTRAINT [CheckPostCodeCon]
+GO
+ALTER TABLE [dbo].[Concractors]  WITH CHECK ADD  CONSTRAINT [CheckTaxIdNoCon] CHECK  (([TaxIdNo] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Concractors] CHECK CONSTRAINT [CheckTaxIdNoCon]
+GO
+ALTER TABLE [dbo].[Engineers]  WITH CHECK ADD  CONSTRAINT [CheckEmailEngi] CHECK  (([Email] like '%___@___%'))
+GO
+ALTER TABLE [dbo].[Engineers] CHECK CONSTRAINT [CheckEmailEngi]
+GO
+ALTER TABLE [dbo].[Engineers]  WITH CHECK ADD  CONSTRAINT [CheckPhoneEngi] CHECK  (([Phone] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Engineers] CHECK CONSTRAINT [CheckPhoneEngi]
+GO
+ALTER TABLE [dbo].[Facilities]  WITH CHECK ADD  CONSTRAINT [CheckEmailToAdmin] CHECK  (([EmailToAdmin] like '%___@___%'))
+GO
+ALTER TABLE [dbo].[Facilities] CHECK CONSTRAINT [CheckEmailToAdmin]
+GO
+ALTER TABLE [dbo].[Facilities]  WITH CHECK ADD  CONSTRAINT [CheckPhoneToAdm] CHECK  (([PhoneToAdmin] like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Facilities] CHECK CONSTRAINT [CheckPhoneToAdm]
+GO
+ALTER TABLE [dbo].[Facilities]  WITH CHECK ADD  CONSTRAINT [CheckPostCodeFac] CHECK  (([PostCode] like '[0-9][0-9][0-9][0-9][0-9]'))
+GO
+ALTER TABLE [dbo].[Facilities] CHECK CONSTRAINT [CheckPostCodeFac]
+GO
+/****** Object:  StoredProcedure [dbo].[GetNextYearInspection]    Script Date: 08.12.2019 18:57:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE procedure [dbo].[GetNextYearInspection]
+@VIdFacility int
+as
+select top 1 @VIdFacility as FacilityId,
+DATEADD(year, 1, sri.DateInsp) as NextYearInspection
+from Facilities f
+join Sprinkler_Room_inspections sri
+on f.Id_facility=sri.Id_facility
+where sri.Id_facility = @VIdFacility
+order by NextYearInspection desc
+GO
+USE [master]
+GO
+ALTER DATABASE [Facilities_inspection] SET  READ_WRITE 
+GO
